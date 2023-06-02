@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.AutoMapper">
+
+    <select id="listAdmin" resultType="Admin">
+        select *
+        from table_admin
+    </select>
+
+    <select id="studentSearch" resultType="Student">
+        select * from table_stuinfo
+        <where>
+            <if test="stuId != null">
+                stuId like concat('%', #{ stuId }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="studentAdd">
+        insert into table_stuinfo(stuid, sname, major, teacher, courseid, subcategory, campus, state)
+        values (#{stuid}, #{sname}, #{major}, #{teacher}, #{courseid}, #{subcategory}, #{campus}, #{state})
+    </insert>
+
+    <update id="studentUpdate">
+        update table_stuinfo set stuid=#{stuid}, sname=#{sname}, major=#{major},teacher=#{teacher},courseid=#{courseid},
+                                 subcategory=#{subcategory},campus=#{campus},state=#{state}
+    </update>
+
+    <delete id="studentDelete">
+        delete from table_stuinfo where id = #{id}
+    </delete>
+
+    <select id="roomSearch" resultType="Classroom">
+        select * from table_class
+        <where>
+            <if test="roomid != null">
+                stuId like concat('%', #{ roomid }, '%')
+            </if>
+        </where>
+    </select>
+    <select id="listRoom" resultType="Classroom">
+        select * from table_class where state = 0
+    </select>
+    <select id="getCourse" resultType="Course">
+        select * from table_course
+    </select>
+
+    <insert id="roomAdd">
+        insert into table_class(roomid, name, capacity, campus, state)
+        values (#{roomid}, #{name}, #{capacity}, #{campus}, #{state})
+    </insert>
+
+    <update id="roomUpdate">
+        update table_class set roomid=#{roomid}, name=#{name}, capacity=#{capacity},campus=#{campus},state=#{state}
+    </update>
+
+    <delete id="deleteRoom">
+        delete from table_class where roomid = #{roomid}
+    </delete>
+
+</mapper>
