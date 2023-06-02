@@ -1,9 +1,13 @@
 package com.example.springboot.service;
 
+import com.example.springboot.controller.request.LoginRequest;
 import com.example.springboot.entity.Admin;
 
 import java.util.List;
 
 public interface IAdminService {
-   List<Admin> listAdmin();
+    Admin login(LoginRequest loginRequest);
+
+
+    Admin getById(int id);
 }
