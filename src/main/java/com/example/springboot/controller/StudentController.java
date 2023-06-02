@@ -17,32 +17,59 @@ public class StudentController {
     @Autowired
     IStuService stuService;
 
-    @GetMapping("/page") //分页查询
+    @GetMapping("/page")            //分页查询
     public Result page(StuPageRequest stuPageRequest){
         return Result.success(stuService.page(stuPageRequest));
     }
 
-    @PostMapping("/add")//插入学生信息
-    public Result save(@RequestBody Student student){
-        stuService.add(student);
-        return Result.success();
+    @PostMapping("/add")            //插入学生信息
+    public Result save(@RequestBody Student[] student){
+        for(Student s:student)
+            stuService.add(s);
+        return Result.success("导入成功");
     }
 
-    @PostMapping("/update")
+    @PutMapping ("/update")         //学生信息更新
     public Result update(@RequestBody Student student){
         stuService.update(student);
-        return Result.success();
+        return Result.success("更新成功");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")  //学生信息删除
     public Result delete(@PathVariable int id){
         stuService.delete(id);
-        return Result.success();
+        return Result.success("删除成功");
     }
 
-    @GetMapping("/course")
+    @DeleteMapping("/deletAllStu")  //删除所有学生信息
+    public Result deleteAll(){
+        stuService.deleteAll();
+        return Result.success("已全部删除");
+    }
+
+    @GetMapping("/course")          //课程信息
     public Result getCourse(){
         List<Course> list = stuService.getCourse();
         return Result.success(list);
     }
+
+    @GetMapping("/Scheduled")       //已安排的学生信息
+    public Result readyStudent(){
+        return Result.success(stuService.readyStudent());
+    }
+
+    @GetMapping("/totalNum")        //总人数
+    public Result totalNum(){
+        return Result.success(stuService.totalNum());
+    }
+
+    @GetMapping("/readyNum")        //已安排的学生人数
+    public Result readyNum(){
+        return Result.success(stuService.readyNum());
+    }
+
+    @GetMapping("/totalNum1")       //花津总人数
+    public Result totalNum1(){return  Result.success(stuService.totalnum1());}
+
+
 }

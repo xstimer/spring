@@ -21,6 +21,10 @@ public interface AutoMapper {
     void studentAdd(Student student);
     void studentUpdate(Student student);
     void studentDelete(int id);
+    Student readyStu();
+    int totalNum();
+    int readyNum();
+    void deleteAllStu();
 
     /*  教室信息增删改查   */
     List<Classroom>roomSearch(RoomPageRequest roomPageRequest);
@@ -29,9 +33,10 @@ public interface AutoMapper {
     void deleteRoom(int id);
     List<Classroom> listRoom();
 
+
     /* 课程信息查询 */
     List<Course> getCourse();
 
 
-    Admin getById(int id);
+    int totalNum1();
 }

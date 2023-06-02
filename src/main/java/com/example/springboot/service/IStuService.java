@@ -16,4 +16,15 @@ public interface IStuService {
     void delete(int id);
 
     List<Course> getCourse();
+
+    Student readyStudent();
+
+    int totalNum();
+
+    int readyNum();
+
+
+    void deleteAll();
+
+    int totalnum1();
 }

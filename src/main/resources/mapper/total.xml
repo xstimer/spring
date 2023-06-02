@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.springboot.mapper.AutoMapper">
 
+<!--    学生增删改查，学生已安排信息    -->
     <select id="studentSearch" resultType="Student">
         select * from table_stuinfo
         <where>
@@ -20,13 +21,32 @@
 
     <update id="studentUpdate">
         update table_stuinfo set stuid=#{stuid}, sname=#{sname}, major=#{major},teacher=#{teacher},courseid=#{courseid},
-                                 subcategory=#{subcategory},campus=#{campus},state=#{state}
+                                 subcategory=#{subcategory},campus=#{campus}  where id=#{id}
     </update>
 
     <delete id="studentDelete">
         delete from table_stuinfo where id = #{id}
     </delete>
 
+    <select id="readyStu" resultType="Student">
+        select * from table_stuinfo where state = 1
+    </select>
+
+    <select id="totalNum" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo
+    </select>
+    <select id="readyNum" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where state = 1
+    </select>
+    <select id="totalNum1" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where campus = 1;
+    </select>
+    <delete id="deleteAllStu">
+        truncate table_stuinfo
+    </delete>
+
+
+<!--    教室相关信息    -->
     <select id="roomSearch" resultType="Classroom">
         select * from table_class
         <where>
@@ -41,13 +61,6 @@
     <select id="getCourse" resultType="Course">
         select * from table_course
     </select>
-    <select id="getByUsernameAndPassword" resultType="Admin">
-        select * from table_admin where username = #{username} and password = #{password}
-    </select>
-    <select id="getById" resultType="com.example.springboot.entity.Admin">
-        select * from table_admin where id=#{id}
-    </select>
-
 
     <insert id="roomAdd">
         insert into table_class(roomid, name, capacity, campus, state)
@@ -55,11 +68,22 @@
     </insert>
 
     <update id="roomUpdate">
-        update table_class set roomid=#{roomid}, name=#{name}, capacity=#{capacity},campus=#{campus},state=#{state}
+        update table_class set name=#{name}, capacity=#{capacity},campus=#{campus},state=#{state} where id=#{id}
     </update>
 
     <delete id="deleteRoom">
         delete from table_class where roomid = #{roomid}
     </delete>
+
+    <select id="getByIdRoom" resultType="Classroom">
+        select * from table_class where id=#{id}
+    </select>
+
+
+    <!--    用户登录相关     -->
+    <select id="getByUsernameAndPassword" resultType="Admin">
+        select username,name from table_admin where username = #{username} and password = #{password}
+    </select>
+
 
 </mapper>
