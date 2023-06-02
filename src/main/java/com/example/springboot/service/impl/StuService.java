@@ -24,7 +24,7 @@ public class StuService implements IStuService {
     }
 
     @Override
-    public void add(Student student){
+    public void add(List<Student>student){
         autoMapper.studentAdd(student);
     }
 
@@ -41,5 +41,55 @@ public class StuService implements IStuService {
     @Override
     public List<Course> getCourse() {
         return autoMapper.getCourse();
+    }
+
+    @Override
+    public Student readyStudent() {
+        return autoMapper.readyStu();
+    }
+
+    @Override
+    public int totalNum() {
+        return autoMapper.totalNum();
+    }
+
+    @Override
+    public int readyNum() {
+        return autoMapper.readyNum();
+    }
+
+    @Override
+    public void deleteAll() {
+        autoMapper.deleteAllStu();
+    }
+
+    @Override
+    public int totalnum1() {
+        return autoMapper.totalNum1();
+    }
+
+    @Override
+    public int readyNum1() {
+        return autoMapper.readyNum1();
+    }
+
+    @Override
+    public int totalnum2() {
+        return autoMapper.totalNum2();
+    }
+
+    @Override
+    public int readyNum2() {
+        return autoMapper.readyNum2();
+    }
+
+    @Override
+    public int totalnum3() {
+        return autoMapper.totalNum3();
+    }
+
+    @Override
+    public int readyNum3() {
+        return autoMapper.readyNum3();
     }
 }

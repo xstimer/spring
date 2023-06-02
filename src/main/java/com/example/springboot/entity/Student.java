@@ -13,5 +13,4 @@ public class Student {
     private String subcategory;
     private int campus;
     private int state = 0;
-
 }

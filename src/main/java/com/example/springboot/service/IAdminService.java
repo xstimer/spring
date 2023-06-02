@@ -9,5 +9,4 @@ public interface IAdminService {
     Admin login(LoginRequest loginRequest);
 
 
-    Admin getById(int id);
 }

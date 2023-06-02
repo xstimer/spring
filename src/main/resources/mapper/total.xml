@@ -4,62 +4,109 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.springboot.mapper.AutoMapper">
 
+<!--    学生增删改查，学生已安排信息    -->
     <select id="studentSearch" resultType="Student">
-        select * from table_stuinfo
+        select id,stuid,sname,major,teacher,courseid,subcategory,campus,state
+        from table_stuinfo
         <where>
-            <if test="stuId != null">
-                stuId like concat('%', #{ stuId }, '%')
+            <if test="stuid != null">
+                stuid like concat('%', #{ stuid }, '%')
             </if>
         </where>
     </select>
 
-    <insert id="studentAdd">
-        insert into table_stuinfo(stuid, sname, major, teacher, courseid, subcategory, campus, state)
-        values (#{stuid}, #{sname}, #{major}, #{teacher}, #{courseid}, #{subcategory}, #{campus}, #{state})
+    <insert id="studentAdd" parameterType="java.util.List">
+        insert into table_stuinfo
+        (stuid,sname,major,teacher,courseid,subcategory,campus,state)
+        values
+        <foreach collection="list" item="student" separator=",">
+            (#{student.stuid},#{student.sname},#{student.major},#{student.teacher},#{student.courseid},#{student.subcategory},#{student.campus},#{student.state})
+        </foreach>
     </insert>
+
 
     <update id="studentUpdate">
         update table_stuinfo set stuid=#{stuid}, sname=#{sname}, major=#{major},teacher=#{teacher},courseid=#{courseid},
-                                 subcategory=#{subcategory},campus=#{campus},state=#{state}
+                                 subcategory=#{subcategory},campus=#{campus}  where id=#{id}
     </update>
 
     <delete id="studentDelete">
         delete from table_stuinfo where id = #{id}
     </delete>
 
+    <select id="getCourse" resultType="Course">
+        select * from table_course
+    </select>
+
+    <select id="readyStu" resultType="Student">
+        select * from table_stuinfo where state = 1
+    </select>
+
+    <select id="totalNum" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo
+    </select>
+    <select id="readyNum" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where state = 1
+    </select>
+    <select id="totalNum1" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where campus = 1;
+    </select>
+    <select id="readyNum1" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where campus = 1 and state = 1
+    </select>
+    <select id="totalNum2" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where campus = 2
+    </select>
+    <select id="readyNum2" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where campus = 2 and state = 1
+    </select>
+    <select id="totalNum3" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where campus = 3
+    </select>
+    <select id="readyNum3" resultType="java.lang.Integer">
+        select count(*) from table_stuinfo where campus = 3 and state = 1
+    </select>
+
+    <delete id="deleteAllStu">
+        truncate table_stuinfo
+    </delete>
+
+
+
+<!--    教室相关信息    -->
     <select id="roomSearch" resultType="Classroom">
         select * from table_class
         <where>
-            <if test="roomid != null">
-                stuId like concat('%', #{ roomid }, '%')
+            <if test="name != null">
+                name like concat('%', #{ name }, '%')
             </if>
         </where>
     </select>
     <select id="listRoom" resultType="Classroom">
         select * from table_class where state = 0
     </select>
-    <select id="getCourse" resultType="Course">
-        select * from table_course
-    </select>
-    <select id="getByUsernameAndPassword" resultType="Admin">
-        select * from table_admin where username = #{username} and password = #{password}
-    </select>
-    <select id="getById" resultType="com.example.springboot.entity.Admin">
-        select * from table_admin where id=#{id}
-    </select>
 
 
     <insert id="roomAdd">
-        insert into table_class(roomid, name, capacity, campus, state)
-        values (#{roomid}, #{name}, #{capacity}, #{campus}, #{state})
+        insert into table_class(name, capacity, campus, state)
+        values (#{name}, #{capacity}, #{campus}, #{state})
     </insert>
 
     <update id="roomUpdate">
-        update table_class set roomid=#{roomid}, name=#{name}, capacity=#{capacity},campus=#{campus},state=#{state}
+        update table_class set name=#{name}, capacity=#{capacity},campus=#{campus},state=#{state} where id=#{id}
     </update>
 
     <delete id="deleteRoom">
-        delete from table_class where roomid = #{roomid}
+        delete from table_class where id = #{id}
     </delete>
+
+
+
+    <!--    用户登录相关     -->
+    <select id="getByUsernameAndPassword" resultType="Admin">
+        select username,name from table_admin where username = #{username} and password = #{password}
+    </select>
+
+
 
 </mapper>

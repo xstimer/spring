@@ -9,11 +9,32 @@ import java.util.List;
 public interface IStuService {
     Object page(StuPageRequest stuPageRequest);
 
-    void add(Student student);
+    void add(List<Student> student);
 
     void update(Student student);
 
     void delete(int id);
 
     List<Course> getCourse();
+
+    Student readyStudent();
+
+    int totalNum();
+
+    int readyNum();
+
+
+    void deleteAll();
+
+    int totalnum1();
+
+    int readyNum1();
+
+    int totalnum2();
+
+    int readyNum2();
+
+    int totalnum3();
+
+    int readyNum3();
 }

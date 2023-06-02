@@ -8,6 +8,7 @@ import com.example.springboot.entity.Classroom;
 import com.example.springboot.entity.Course;
 import com.example.springboot.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,9 +19,13 @@ public interface AutoMapper {
 
     /* 学生信息增删改查*/
     List<Student> studentSearch(StuPageRequest stuPageRequest);
-    void studentAdd(Student student);
+    void studentAdd(List<Student> student);
     void studentUpdate(Student student);
     void studentDelete(int id);
+    Student readyStu();
+    int totalNum();
+    int readyNum();
+    void deleteAllStu();
 
     /*  教室信息增删改查   */
     List<Classroom>roomSearch(RoomPageRequest roomPageRequest);
@@ -29,9 +34,20 @@ public interface AutoMapper {
     void deleteRoom(int id);
     List<Classroom> listRoom();
 
+
     /* 课程信息查询 */
     List<Course> getCourse();
 
 
-    Admin getById(int id);
+    int totalNum1();
+
+    int readyNum1();
+
+    int totalNum2();
+
+    int readyNum2();
+
+    int totalNum3();
+
+    int readyNum3();
 }

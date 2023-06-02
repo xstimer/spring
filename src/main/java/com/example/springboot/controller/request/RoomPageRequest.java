@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class RoomPageRequest extends BaseRequest{
-    private String roomid;
+    private String name;
 }

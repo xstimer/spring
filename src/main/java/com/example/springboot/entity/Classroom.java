@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class Classroom {
-    private String roomid;
+    private int id;
     private String name;
-    private String capacity;
+    private int capacity;
     private int campus;
     private int state = 0;
 }
