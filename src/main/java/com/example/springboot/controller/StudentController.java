@@ -28,6 +28,12 @@ public class StudentController {
         return Result.success("导入成功");
     }
 
+    @PostMapping("/add")
+    public Result add(@RequestBody Student student){
+        stuService.addAlone(student);
+        return Result.success("导入成功");
+    }
+
     @PutMapping ("/update")         //学生信息更新
     public Result update(@RequestBody Student student){
         stuService.update(student);

@@ -50,4 +50,6 @@ public interface AutoMapper {
     int totalNum3();
 
     int readyNum3();
+
+    void addAlone(Student student);
 }

@@ -23,7 +23,12 @@
             (#{student.stuid},#{student.sname},#{student.major},#{student.teacher},#{student.courseid},#{student.subcategory},#{student.campus},#{student.state})
         </foreach>
     </insert>
-
+    <insert id="addAlone">
+        insert into table_stuinfo
+            (stuid,sname,major,teacher,courseid,subcategory,campus,state)
+        values
+            (#{stuid},#{sname},#{major},#{teacher},#{courseid},#{subcategory},#{campus},#{state})
+    </insert>
 
     <update id="studentUpdate">
         update table_stuinfo set stuid=#{stuid}, sname=#{sname}, major=#{major},teacher=#{teacher},courseid=#{courseid},
@@ -91,6 +96,7 @@
         insert into table_class(name, capacity, campus, state)
         values (#{name}, #{capacity}, #{campus}, #{state})
     </insert>
+
 
     <update id="roomUpdate">
         update table_class set name=#{name}, capacity=#{capacity},campus=#{campus},state=#{state} where id=#{id}

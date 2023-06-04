@@ -92,4 +92,9 @@ public class StuService implements IStuService {
     public int readyNum3() {
         return autoMapper.readyNum3();
     }
+
+    @Override
+    public void addAlone(Student student) {
+        autoMapper.addAlone(student);
+    }
 }

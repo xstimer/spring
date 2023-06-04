@@ -37,4 +37,6 @@ public interface IStuService {
     int totalnum3();
 
     int readyNum3();
+
+    void addAlone(Student student);
 }
