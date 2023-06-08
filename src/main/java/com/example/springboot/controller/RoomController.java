@@ -16,7 +16,7 @@ public class RoomController {
     @Autowired
     IRoomService roomService;
 
-    @GetMapping("/pagination") //分页查询
+    @GetMapping("/page")  //分页查询
     public Result pagination(RoomPageRequest roomPageRequest){
         return Result.success(roomService.page(roomPageRequest));
     }
@@ -26,7 +26,6 @@ public class RoomController {
         List<Classroom> room = roomService.listRoom();
         return Result.success(room);
     }
-
 
     @PostMapping("/add")        //插入教室信息
     public Result save(@RequestBody Classroom classroom){

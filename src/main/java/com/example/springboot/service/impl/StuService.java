@@ -97,4 +97,15 @@ public class StuService implements IStuService {
     public void addAlone(Student student) {
         autoMapper.addAlone(student);
     }
+
+    @Override
+    public List<Student> getByCourse(StuPageRequest stuPageRequest) {
+        return autoMapper.getByCourse(stuPageRequest);
+    }
+
+    @Override
+    public void deleteStudentExam(Student student) {
+        autoMapper.deleteStudentExam(student);
+    }
+
 }

@@ -8,6 +8,7 @@ import com.example.springboot.service.IStuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -22,6 +23,10 @@ public class StudentController {
         return Result.success(stuService.page(stuPageRequest));
     }
 
+    @GetMapping("/select")
+    public Result getByCourse(StuPageRequest stuPageRequest){
+        return Result.success(stuService.getByCourse(stuPageRequest));
+    }
     @PostMapping("/upload")            //插入学生信息
     public Result save(@RequestBody List<Student> student){
             stuService.add(student);
@@ -31,12 +36,13 @@ public class StudentController {
     @PostMapping("/add")
     public Result add(@RequestBody Student student){
         stuService.addAlone(student);
-        return Result.success("导入成功");
+        return Result.success();
     }
 
     @PutMapping ("/update")         //学生信息更新
     public Result update(@RequestBody Student student){
         stuService.update(student);
+        stuService.deleteStudentExam(student);
         return Result.success();
     }
 
@@ -58,42 +64,21 @@ public class StudentController {
         return Result.success(list);
     }
 
-    @GetMapping("/Scheduled")       //已安排的学生信息
+    @GetMapping("/Scheduled")       //已安排的学生
     public Result readyStudent(){
         return Result.success(stuService.readyStudent());
     }
 
-    @GetMapping("/totalNum")        //总人数
+    @GetMapping("/overview")        //总人数
     public Result totalNum(){
-        return Result.success(stuService.totalNum());
+        List<Integer>total = new ArrayList<>();
+        total.add(stuService.totalnum1());
+        total.add(stuService.totalnum2());
+        total.add(stuService.totalnum3());
+        total.add(stuService.readyNum1());
+        total.add(stuService.readyNum2());
+        total.add(stuService.readyNum3());
+        return Result.success(total);
     }
 
-    @GetMapping("/readyNum")        //已安排的学生人数
-    public Result readyNum(){
-        return Result.success(stuService.readyNum());
-    }
-
-    @GetMapping("/totalNum1")       //花津总人数
-    public Result totalNum1(){return  Result.success(stuService.totalnum1());}
-
-    @GetMapping("/readyNum1")         //花津已安排
-    public Result readyNum1(){
-        return Result.success(stuService.readyNum1());
-    }
-
-    @GetMapping("/totalNum2")       //赭山总人数
-    public Result totalNum2(){return  Result.success(stuService.totalnum2());}
-
-    @GetMapping("/readyNum2")         //赭山已安排
-    public Result readyNum2(){
-        return Result.success(stuService.readyNum2());
-    }
-
-    @GetMapping("/totalNum3")       //天门山总人数
-    public Result totalNum3(){return  Result.success(stuService.totalnum3());}
-
-    @GetMapping("/readyNum3")         //赭山已安排
-    public Result readyNum3(){
-        return Result.success(stuService.readyNum3());
-    }
 }

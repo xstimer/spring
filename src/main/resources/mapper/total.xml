@@ -15,6 +15,10 @@
         </where>
     </select>
 
+    <select id="getByCourse" resultType="Student">
+        select * from table_stuinfo where courseid = #{courseid} and state = 0
+    </select>
+
     <insert id="studentAdd" parameterType="java.util.List">
         insert into table_stuinfo
         (stuid,sname,major,teacher,courseid,subcategory,campus,state)
@@ -23,6 +27,14 @@
             (#{student.stuid},#{student.sname},#{student.major},#{student.teacher},#{student.courseid},#{student.subcategory},#{student.campus},#{student.state})
         </foreach>
     </insert>
+
+    <update id="updateStuIndividuallyState" parameterType="java.util.List">
+        UPDATE table_stuinfo SET state = 1 WHERE id IN
+        <foreach item="student" index="index" collection="list" open="(" separator="," close=")">
+            #{student.id}
+        </foreach>
+    </update>
+
     <insert id="addAlone">
         insert into table_stuinfo
             (stuid,sname,major,teacher,courseid,subcategory,campus,state)
@@ -32,8 +44,12 @@
 
     <update id="studentUpdate">
         update table_stuinfo set stuid=#{stuid}, sname=#{sname}, major=#{major},teacher=#{teacher},courseid=#{courseid},
-                                 subcategory=#{subcategory},campus=#{campus}  where id=#{id}
+                                 subcategory=#{subcategory},campus=#{campus}, state =#{state} where id=#{id}
     </update>
+
+    <delete id="deleteStudentExam">
+        delete from table_export where stuid=#{stuid} and teacher=#{teacher}
+    </delete>
 
     <delete id="studentDelete">
         delete from table_stuinfo where id = #{id}
@@ -71,7 +87,6 @@
     <select id="readyNum3" resultType="java.lang.Integer">
         select count(*) from table_stuinfo where campus = 3 and state = 1
     </select>
-
     <delete id="deleteAllStu">
         truncate table_stuinfo
     </delete>
@@ -86,26 +101,54 @@
                 name like concat('%', #{ name }, '%')
             </if>
         </where>
+        <if test="sort == 0">
+        order by id asc
+        </if>
+        <if test="sort == 1">
+            order by id desc
+        </if>
     </select>
     <select id="listRoom" resultType="Classroom">
-        select * from table_class where state = 0
+        select * from table_class
     </select>
-
-
     <insert id="roomAdd">
-        insert into table_class(name, capacity, campus, state)
-        values (#{name}, #{capacity}, #{campus}, #{state})
+        insert into table_class(name, capacity, campus)
+        values (#{name}, #{capacity}, #{campus})
+    </insert>
+    <insert id="recordingDateTime">
+        INSERT INTO table_test (testdate, teststart) VALUES (#{arg0}, #{arg1}) ON DUPLICATE KEY UPDATE teststart = #{arg1}
+    </insert>
+    <insert id="insertExport">
+        INSERT INTO table_export(teacher,stuid,name,admission,course,begin,end,major,room) VALUES
+        <foreach collection="list" separator="," item="item">
+            (#{item.teacher}, #{item.stuid}, #{item.name}, #{item.admission}, #{item.course}, #{item.begin}, #{item.end}, #{item.major}, #{item.room})
+        </foreach>
+    </insert>
+    <insert id="insertIndividually" parameterType="java.util.Map">
+        INSERT INTO table_export(teacher, stuid, name ,admission, course, begin, end, room, major)
+        VALUES
+        <foreach collection="studentList" item="item" separator=",">
+            (#{item.teacher}, #{item.stuid},#{item.sname} ,#{admission}, #{coursename}, #{startTime}, #{endTime}, #{room}, #{item.major})
+        </foreach>
     </insert>
 
 
     <update id="roomUpdate">
-        update table_class set name=#{name}, capacity=#{capacity},campus=#{campus},state=#{state} where id=#{id}
+        update table_class set name=#{name}, capacity=#{capacity},campus=#{campus} where id=#{id}
+    </update>
+    <update id="updateStuState">
+        update table_stuinfo set state = 1 where courseid = #{courseid}
     </update>
 
     <delete id="deleteRoom">
         delete from table_class where id = #{id}
     </delete>
-
+    <delete id="deletExport">
+        truncate table_export
+    </delete>
+    <delete id="deleteDateInfo">
+        truncate table_test
+    </delete>
 
 
     <!--    用户登录相关     -->
@@ -113,6 +156,49 @@
         select username,name from table_admin where username = #{username} and password = #{password}
     </select>
 
+
+    <!--  统一分配相关  -->
+    <select id="searchStartTime" resultType="java.lang.String">
+        select teststart from table_test where testdate=#{testdate}
+    </select>
+    <select id="getCourseId" resultType="java.lang.Integer">
+        select courseid from table_course where coursename=#{coursename}
+    </select>
+    <select id="studentByCourseid" resultType="Student">
+        select * from table_stuinfo where courseid = #{courseid}
+    </select>
+    <select id="getTeacherName" resultType="java.lang.String">
+        select teacher from table_stuinfo where stuid = #{arg0} and courseid = #{arg1}
+    </select>
+    <select id="getMajorName" resultType="java.lang.String">
+        select major from table_stuinfo where stuid = #{stuid}
+    </select>
+    <select id="searchByRoomid" resultType="Classroom">
+        select * from table_class where id in
+        <foreach collection="list" item="item" open="(" close=")" separator="," >
+            #{item}
+        </foreach>
+    </select>
+    <select id="getReadyArrangeInfo" resultType="Examination">
+        select * from table_export
+    </select>
+    <select id="getTestDate" resultType="java.lang.String">
+        select testdate from table_test
+    </select>
+    <select id="getTestStart" resultType="java.lang.String">
+        select teststart from table_test
+    </select>
+    <select id="getRoomById" resultType="Classroom">
+        select * from table_class where id = #{id}
+    </select>
+    <select id="getStuByStuid" parameterType="java.util.List" resultType="Student">
+        SELECT * FROM table_stuinfo
+        WHERE stuid IN
+        <foreach item="item" collection="selections" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND courseid = #{courseid}
+    </select>
 
 
 </mapper>

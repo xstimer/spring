@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class StuPageRequest extends BaseRequest{
-    public String stuid;
-    public int sort;
+    private long stuid;
+    private int sort;
+    private int courseid;
+
 }

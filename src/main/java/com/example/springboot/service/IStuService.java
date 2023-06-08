@@ -39,4 +39,9 @@ public interface IStuService {
     int readyNum3();
 
     void addAlone(Student student);
+
+    List<Student> getByCourse(StuPageRequest stuPageRequest);
+
+
+    void deleteStudentExam(Student student);
 }

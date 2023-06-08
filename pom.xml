@@ -102,7 +102,7 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.example.springboot.SpringbootApplication</mainClass>
-                    <skip>true</skip>
+
                 </configuration>
                 <executions>
                     <execution>

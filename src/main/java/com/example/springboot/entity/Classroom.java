@@ -8,5 +8,4 @@ public class Classroom {
     private String name;
     private int capacity;
     private int campus;
-    private int state = 0;
 }

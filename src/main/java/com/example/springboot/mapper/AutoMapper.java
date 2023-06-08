@@ -3,10 +3,7 @@ package com.example.springboot.mapper;
 import com.example.springboot.controller.request.LoginRequest;
 import com.example.springboot.controller.request.RoomPageRequest;
 import com.example.springboot.controller.request.StuPageRequest;
-import com.example.springboot.entity.Admin;
-import com.example.springboot.entity.Classroom;
-import com.example.springboot.entity.Course;
-import com.example.springboot.entity.Student;
+import com.example.springboot.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -52,4 +49,44 @@ public interface AutoMapper {
     int readyNum3();
 
     void addAlone(Student student);
+
+    List<Student> getByCourse(StuPageRequest stuPageRequest);
+
+    String searchStartTime(String date);
+
+    void recordingDateTime(String date, String start);
+
+    int getCourseId(String coursename);
+
+    List<Student> studentByCourseid(int courseid);
+
+    String getTeacherName(long stuid, int courseid);
+
+    String getMajorName(long stuid);
+
+    void insertExport(List<Examination> exam);
+
+    void updateStuState(int courseid);
+
+    List<Classroom> searchByRoomid(List<Integer> selection);
+
+    List<Examination> getReadyArrangeInfo();
+
+    String getTestDate();
+
+    void deletExport();
+
+    String getTestStart();
+
+    void deleteDateInfo();
+
+    Classroom getRoomById(int id);
+
+    List<Student> getStuByStuid(@Param("selections")List<Long> selections,@Param("courseid") int courseid);
+
+    void insertIndividually(@Param("studentList") List<Student> studentList,@Param("admission") String admission,@Param("coursename")  String coursename,@Param("startTime")  String startTime,@Param("endTime")  String endTime,@Param("room")  String room);
+
+    void updateStuIndividuallyState(List<Student> studentList);
+
+    void deleteStudentExam(Student student);
 }
